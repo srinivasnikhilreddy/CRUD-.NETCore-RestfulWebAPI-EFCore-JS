@@ -16,7 +16,7 @@ The API follows modern development practices and is designed to scale effectivel
 * ***SQL Server***: The relational database management system used for storing student data.
 * ***Swagger/OpenAPI***: Used for generating API documentation and testing endpoints in an interactive interface.
 * ***CORS***: Configured to handle cross-origin requests, enabling communication between the front-end and back-end, especially in separated development environments.
-* ***JavaScript Front-End***: A simple JavaScript application (or integration) to interact with the API, demonstrating the client-side interaction with the API.
+* ***JavaScript Front-End***: A simple JavaScript application (or integration) to interact with the API, demonstrating the client-side interaction with the API. data is being deisplayed in tabulator a powerful library in javascript.
 
 ## Future usecase
 ***1. Microservices Architecture:***
