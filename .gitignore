@@ -1,0 +1,70 @@
+# .NET Core
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]ebug-NetCoreApp*/  # for .NET Core 3.0 or higher
+[Dd]ebug-windows/
+[Dd]ebug-linux/
+[Dd]ebug-osx/
+
+# .NET Core Build Files
+bin/
+obj/
+
+# User-specific files
+.vs/
+.vscode/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# ASP.NET Core specific files
+wwwroot/
+node_modules/
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*.bak
+*.tmp
+*.pid
+*.seed
+*.db
+*.sqlite
+
+# Environment-specific settings
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+
+# Test results
+TestResults/
+
+# Publish output
+publish/
+
+# JetBrains Rider
+.idea/
+
+# NuGet Packages
+packages/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# VS Code directories
+.vscode/
+
+# User-specific JetBrains Rider files
+.idea/

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management</title>
+    <link href="https://unpkg.com/tabulator-tables@5.4.3/dist/css/tabulator.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/tabulator-tables@5.4.3/dist/js/tabulator.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.js"></script>
+
+    <style>
+        body {
+            background: url("https://www.centizen.com/wp-content/uploads/2020/06/REST-API-600x339.png") center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Georgia, sans-serif;
+        }
+        h1 {
+            position: fixed;
+            top: 20px;
+            margin-bottom: 45%;
+            text-align: center;
+            margin-top: 20px;
+            font-family: Georgia, sans-serif;
+            color: white;
+            text-shadow: 0 4px 6px rgb(201, 188, 188);
+            /*box-shadow: 0 4px 6px rgb(201, 188, 188);*/
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: absolute;
+            top: 15%;
+            left: 5%;
+        }
+        .input-container {
+            width: 305px;
+            display: flex;
+            flex-direction: column;
+        }
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input[type="text"], select, select option, input[type="color"], input[type="date"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        
+        input[type="button"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16.5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        .tabulator {
+            position: fixed;
+            top: 25%;
+            left: 29%;
+            margin-bottom: 45%;
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #333;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            width: 67.8%;
+            max-width: 100%;
+            height: 47%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        
+        .tabulator .tabulator-header{
+            background-color: #000000 !important;
+            color: #000000 ; 
+            height: fit-content;
+            font-weight: bold;
+            border-bottom: 2px solid #333;
+            text-align: center;
+            display: flex;
+        }
+
+        .tabulator .tabulator-row {
+            color: #fff; 
+            display: flex;
+            background-color: #111;
+            border-bottom: 1px solid #333;
+        }
+        
+        .tabulator .tabulator-row:nth-child(even) {
+            background-color: #222;
+        }
+        
+        .tabulator .tabulator-row:hover {
+            background-color: #333;
+        }
+        
+        .tabulator .tabulator-cell {
+            padding: 10px;
+            text-align: center;
+            border-right: 1px solid #333;
+            cursor: pointer;
+        }
+        
+        .task-progress {
+            display: block;
+            background-color: #0f0;
+            height: 15px;
+            border-radius: 5px;
+        }
+        
+        .tabulator .tabulator-footer {
+            background-color: #222;
+            color: #fff;
+            border-top: 2px solid #333;
+        }
+        
+        .tabulator .tabulator-sticky-header {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        .tabulator .tabulator-page {
+            background-color: #333;
+            color: #fff;
+            margin: 0 5px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .tabulator .tabulator-page:hover {
+            background-color: #555;
+        }
+        
+        .tabulator .tabulator-page.active {
+            background-color: #0f0;
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .star-rating {
+            color: gold;
+            font-size: 16px;
+        }
+        
+        .driver-yes {
+            color: #0f0;
+            font-size: 18px;
+        }
+        
+        .driver-no {
+            color: #f00;
+            font-size: 18px;
+        }
+    </style>
+
+    <script>
+        let tabulator;
+        function showSuccessMsg(title, text) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'sweet-popup',
+                    title: 'sweet-title'
+                },
+                willOpen: () => {
+                    //Replace existing inline style
+                    document.querySelector('.swal2-popup')?.setAttribute('style', 'color: white !important; background: transparent !important; box-shadow: none !important; text-shadow: 0 4px 6px rgb(201, 188, 188) !important; border: none !important; width: 320px !important; height: auto !important; padding: 10px !important; border: 2px solid black !important;');
+                    document.querySelector('.swal2-container')?.setAttribute('style', 'background: rgba(0, 0, 0, 0) !important; backdrop-filter: blur(0px) !important;');
+                }}).then(() =>{
+                    MakeRequestGet();
+            });
+        }
+        function showErrorMsg(title, text) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'error',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'sweet-popup',
+                    title: 'sweet-title'
+                },
+                willOpen: () => {
+                    //Replace existing inline style
+                    document.querySelector('.swal2-popup')?.setAttribute('style', 'color: red !important; background: transparent !important; box-shadow: none !important;  text-shadow: 0 4px 6px rgb(0, 0, 0) !important; border: none !important; width: 320px !important; height: auto !important; padding: 10px !important; border: 2px solid black !important;');
+                    document.querySelector('.swal2-container')?.setAttribute('style', 'background: rgba(0, 0, 0, 0) !important; backdrop-filter: blur(0px) !important;');
+                }
+            });
+        }
+        function MakeRequestGet() { 
+            let apiurl = "https://localhost:7200/api/Students/GetAllStudents";
+        
+            fetch(apiurl, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            }).then(res => res.json()) //first .then() called by fetch() which returns response obj(as a promise). the first .then() takes this reponse and parsees it into JSON using res.json(). the res.json() itself returns a Promise.
+            .then(jsonData => {
+                console.log(jsonData); 
+                
+                if(tabulator){
+                    tabulator.destroy();
+                }
+                //Clear previous table before creating a new one
+                var tabcontainer = document.getElementById("table-container");
+                tabcontainer.innerHTML = "";
+
+                tabulator = new Tabulator("#table-container", {
+                    data: jsonData,
+                    layout: "fitColumns",
+                    pagination: true,
+                    paginationSize: 10,
+                    paginationSizeSelector: [5, 10, 15, 20],
+                    paginationCounter: "rows",
+                    resizableRows: true,
+                    addRowPos: "top",
+                    initialSort: [
+                        { column: "name", dir: "asc" }
+                    ],
+                    columns: [
+                        { title: "id", field: "id", editor: "input", width: 50 },
+                        { title: "Name", field: "name", editor: "input", width: 189 },
+                        { title: "Task Progress", field: "progress", formatter: "progress", editor: true, hozAlign: "left", width: 189 },
+                        { title: "Gender", field: "gender", editor: "list", editorParams: {values: [{ value: "male", label: "Male" },{ value: "female", label: "Female" }] }, width: 95 },
+                        { title: "Rating", field: "rating", formatter:"star", editor: "star", editorParams: { min: 1, max: 5, step: 1 }, hozAlign: "center", width: 100 },
+                        { title: "Color", field: "col", editor: "input", width: 130 },
+                        { title: "Date Of Birth", field: "dob", editor: "date", editorParams: { placeholderEmpty: "dd/mm/yyyy" },  width: 130, hozAlign: "center" },
+                        { title: "Driver", field: "car", formatter:"tickCross", editor: "tickCross", width: 190, hozAlign: "center" },
+                   ]
+                });
+            }).catch(err => {
+                showErrorMsg('Oops!', err.message);
+            });
+        }
+
+        function MakeRequestPost() {
+            const apiurl = "https://localhost:7200/api/Students/SaveStudent";
+            
+            //id is a pk, auto generated.
+            var name = document.getElementById("name").value;
+            var progress = document.getElementById("progress").value;
+            var gender = document.getElementById("gender").value;
+            var rating = document.getElementById("rating").value;
+            var col = document.getElementById("col").value;
+            var dob = document.getElementById("dob").value;
+            var car = document.getElementById("car").value === "true";
+            
+	        // Validate the input fields
+            if(!name || !progress || !gender || !rating || !col || !dob || car === null){
+                showErrorMsg('Oops!', 'Please fill all the credentials!');
+                return;
+            }
+            var student = { name: name, progress: progress, gender: gender, rating: rating, col: col, dob: dob, car: car };
+
+            fetch(apiurl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(student) //Send student data as JSON
+            }).then(res => {
+                if(res.ok){
+                    showSuccessMsg('Success', 'Employee Added Successfully!');
+                }
+            }).catch(err => {
+                showErrorMsg('Oops!', err.message);
+            });
+        }
+
+        function MakeRequestPut() {
+            var id = document.getElementById("id").value;
+            var name = document.getElementById("name").value;
+            var progress = document.getElementById("progress").value;
+            var gender = document.getElementById("gender").value;
+            var rating = document.getElementById("rating").value;
+            var col = document.getElementById("col").value;
+            var dob = document.getElementById("dob").value;
+            var car = document.getElementById("car").value === "true";
+            
+            if(!id || !name || !progress || !gender || !rating || !col || !dob || car === null){
+                showErrorMsg('Oops!', 'Please fill all the credentials!');
+                return;
+            }
+            var student = { id: id, name: name, progress: progress, gender: gender, rating: rating, col: col, dob: dob, car: car };
+
+            const apiurl = `https://localhost:7200/api/Students/UpdateStudent/${id}`;
+            
+            fetch(apiurl, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(student) //Send student data as JSON
+            }).then(res => {
+                if(res.ok){
+                    showSuccessMsg('Success', 'Employee Updated Successfully!');
+                }
+            }).catch(err => {
+                showErrorMsg('Oops!', err.message);
+            });
+        }
+
+        function MakeRequestDelete() {
+            var id = document.getElementById("id").value;
+            if(!id) {
+                showErrorMsg('Oops!', 'Please enter the employee id to be deleted!');
+                return;
+    	    }
+            const apiurl = `https://localhost:7200/api/Students/DeleteStudent/${id}`;
+        
+            fetch(apiurl, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" }
+            }).then(res => {
+                if(res.ok){
+                    showSuccessMsg('Success', 'Employee Deleted Successfully!');
+                }
+            }).catch(err => {
+                showErrorMsg('Oops!', err.message);
+            });
+        }
+    </script>
+    
+</head>
+<body>
+    <h1>Employee Management</h1>
+       
+    <div id="table-container"></div>
+
+    <div class="container">
+        <div class="input-container">
+            <input type="text" name="id" id="id" placeholder="Employee id" min="1" required style="background-color: transparent;"><br/>
+            <input type="text" name="name" id="name" placeholder="Employee name" pattern="[A-Za-z]+" title="Letters and spaces only" required style="background-color: transparent;"><br/>
+            <input type="text" name="progress" id="progress" placeholder="Employee progress" min="0" max="100" required style="background-color: transparent;"><br/>
+            <select name="gender" id="gender" required style="background-color: transparent;">
+                <option value="" disabled selected>Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select><br/>
+            <input type="text" name="rating" id="rating" placeholder="Employee rating" min="1" max="5" step="0.1" required style="background-color: transparent;"><br/>
+            <input type="color" name="col" id="col" placeholder="Employee color" value="#72b7eb" style="background-color: transparent; width: 100%; padding: 10px; height: 6vh;"><br/>
+            <input type="date" name="dob" id="dob" placeholder="Employee dob" required style="background-color: transparent;"><br/>
+            <select name="car" id="car" required style="background-color: transparent;">
+                <option value="" disabled selected >Driver license?</option>
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select><br/>
+        </div>
+        <div class="btn-container">
+            <input type="button" onclick="MakeRequestGet()" value="Display">
+            <input type="button" onclick="MakeRequestPost()" value="Insert">
+            <input type="button" onclick="MakeRequestPut()" value="Update">
+            <input type="button" onclick="MakeRequestDelete()" value="Delete">
+        </div>
+        <div id="container"></div>
+    </div>
+</body>
+</html>
