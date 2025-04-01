@@ -28,7 +28,9 @@ The API follows modern development practices and is designed to scale effectivel
 ✅ ***JavaScript Front-End***: A simple JavaScript application (or integration) to interact with the API, demonstrating the client-side interaction with the API. data is being deisplayed in tabulator a powerful library in javascript.
 
 
+
 ## 🎯 Future Usecase and Enhancements
+
 ***1. Microservices Architecture:***
 * Key for scalability, flexibility, and managing complex applications by breaking them into smaller, independent services. This is crucial for large-scale applications.
   
@@ -48,8 +50,8 @@ The API follows modern development practices and is designed to scale effectivel
 * Add AI features like student recommendations based on data, using ML.NET to integrate machine learning into the CRUD system.
   
 
-## API Endpoints
-### GET /api/Students/GetAllStudents
+## API Endpoints 🌐
+### 🔍 GET /api/Students/GetAllStudents
 * Retrieves a list of all students in the database.
 * Method: GET
 * Response: A list of student objects.
@@ -57,7 +59,7 @@ The API follows modern development practices and is designed to scale effectivel
 ![Image](https://github.com/user-attachments/assets/13ed5af6-6423-41b5-b0e9-97c195b6b2ec)
 
 
-## POST /api/Students/SaveStudent
+## ➕ POST /api/Students/SaveStudent
 * Adds a new student record to the database.
 * Method: POST
 * Request Body:
@@ -76,7 +78,7 @@ The API follows modern development practices and is designed to scale effectivel
 ![Image](https://github.com/user-attachments/assets/c0632e8c-0a88-4c25-80db-b4ad16c58a37)
 
 
-### PUT /api/Students/UpdateStudent/{id}
+### 🔄 PUT /api/Students/UpdateStudent/{id}
 * Updates an existing student's data.
 * Method: PUT
 * Parameters: id (path parameter, the unique student ID)
@@ -86,7 +88,7 @@ The API follows modern development practices and is designed to scale effectivel
 ![Image](https://github.com/user-attachments/assets/c0cd7892-95dd-4857-ac5d-7e89cee5e195)
 
 
-### DELETE /api/Students/DeleteStudent/{id}
+### 🗑️ DELETE /api/Students/DeleteStudent/{id}
 * Deletes a specific student by ID.
 * Method: DELETE
 * Parameters: id (path parameter, the unique student ID)
@@ -101,7 +103,7 @@ The API follows modern development practices and is designed to scale effectivel
 ![Image](https://github.com/user-attachments/assets/ee346335-1d37-4f0c-b928-4fee401d7731)
 
 
-### DATABASE (students table)
+### 💾 DATABASE (students table)
 
 ![Image](https://github.com/user-attachments/assets/8c72b90e-7b5f-4e04-abc7-afb157a43191)
 
