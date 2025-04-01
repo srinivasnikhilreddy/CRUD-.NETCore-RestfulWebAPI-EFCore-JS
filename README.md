@@ -39,6 +39,9 @@ The API follows modern development practices and is designed to scale effectivel
 * Retrieves a list of all students in the database.
 * Method: GET
 * Response: A list of student objects.
+  
+* ![Image](https://github.com/user-attachments/assets/13ed5af6-6423-41b5-b0e9-97c195b6b2ec)
+
 
 ## POST /api/Students/SaveStudent
 * Adds a new student record to the database.
@@ -56,6 +59,9 @@ The API follows modern development practices and is designed to scale effectivel
  }
 * Response: 200 OK (indicating the student was successfully added).
 
+* ![Image](https://github.com/user-attachments/assets/c0632e8c-0a88-4c25-80db-b4ad16c58a37)
+
+
 ### PUT /api/Students/UpdateStudent/{id}
 * Updates an existing student's data.
 * Method: PUT
@@ -63,9 +69,24 @@ The API follows modern development practices and is designed to scale effectivel
 * Request Body: Same structure as the POST request.
 * Response: 204 No Content (indicating the student was successfully updated).
 
+* ![Image](https://github.com/user-attachments/assets/c0cd7892-95dd-4857-ac5d-7e89cee5e195)
+
+
 ### DELETE /api/Students/DeleteStudent/{id}
 * Deletes a specific student by ID.
 * Method: DELETE
 * Parameters: id (path parameter, the unique student ID)
 * Response: 204 No Content (indicating the student was successfully deleted).
+
+* ![Image](https://github.com/user-attachments/assets/faa87191-2f4e-462a-9e3b-7a198b60dbfb)
+
+
+
+### Finally
+
+![Image](https://github.com/user-attachments/assets/ee346335-1d37-4f0c-b928-4fee401d7731)
+
+
+
+
 
